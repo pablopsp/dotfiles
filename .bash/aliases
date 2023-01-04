@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+alias ll="ls -la"
+
+if command -v python3 &>/dev/null; then
+    alias python="python3"
+    exit
+fi
+
+if command -v bat &>/dev/null; then
+    alias cat="bat"
+    exit
+fi

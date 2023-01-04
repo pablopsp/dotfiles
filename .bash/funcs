@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+git_branch() {
+    if git rev-parse --git-dir >/dev/null 2>&1; then
+        echo -e "" git:\($(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')\)
+    else
+        echo ""
+    fi
+}
+
+git_color() {
+    local STATUS=$(git status 2>&1)
+
+    if [[ "$STATUS" == *'Not a git repository'* ]]; then
+        echo "" # nothing
+    else
+        if [[ "$STATUS" != *'working directory clean'* ]]; then
+            echo -e '\033[0;31m' # red if need to commit
+        else
+            if [[ "$STATUS" != *'Your branch is ahead'* ]]; then
+                echo -e '\033[0;33m' # yellow if need to push
+            else
+                echo -e '\033[0;32m' # else green
+            fi
+        fi
+    fi
+}
